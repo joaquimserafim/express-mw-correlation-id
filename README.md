@@ -2,15 +2,15 @@
 
 Correlates HTTP requests between a client and server
 
-<a href="https://nodei.co/npm/express-correlation-id/"><img src="https://nodei.co/npm/express-correlation-id.png?downloads=true"></a>
+<a href="https://nodei.co/npm/express-mw-correlation-id/"><img src="https://nodei.co/npm/express-mw-correlation-id.png?downloads=true"></a>
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/joaquimserafim/express-correlation-id)![Code Coverage 100%](https://img.shields.io/badge/code%20coverage-100%25-green.svg?style=flat-square)[![ISC License](https://img.shields.io/badge/license-ISC-blue.svg?style=flat-square)](https://github.com/joaquimserafim/express-correlation-id/blob/master/LICENSE)[![NodeJS](https://img.shields.io/badge/node-6.1.x-brightgreen.svg?style=flat-square)](https://github.com/joaquimserafim/express-correlation-id/blob/master/package.json#L54)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://travis-ci.org/joaquimserafim/express-correlation-id)![Code Coverage 100%](https://img.shields.io/badge/code%20coverage-100%25-green.svg?style=flat-square)[![ISC License](https://img.shields.io/badge/license-ISC-blue.svg?style=flat-square)](https://github.com/joaquimserafim/express-correlation-id/blob/master/LICENSE)[![NodeJS](https://img.shields.io/badge/node-6.1.x-brightgreen.svg?style=flat-square)](https://github.com/joaquimserafim/express-correlation-id/blob/master/package.json#L48)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
 
 ### api
-`const setCorrelationId = require('express-correlation-id')`
+`const setCorrelationId = require('express-mw-correlation-id')`
 
 **setCorrelationId([boolean, default to false])**
 * by default will use the `X-Request-ID` header but to use the `X-Correlation-ID` header instead just pass the boolean `true` value to `setCorrelationId` function
@@ -21,7 +21,7 @@ Correlates HTTP requests between a client and server
 
 ```js
 const express = require('express')
-const setCorrelationId = require('express-correlation-id')
+const setCorrelationId = require('express-mw-correlation-id')
 
 const app = express()
 
