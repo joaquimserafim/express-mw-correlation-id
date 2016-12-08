@@ -21,7 +21,8 @@ const uuidV4Regex = new RegExp('^[0-9a-f]{8}-[0-9a-f]{4}-[1-5]' +
   '[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$', 'i')
 
 let header = false
-let uuidHold
+let oldUuid
+let uuid
 let app
 
 describe('express-correlation-id', () => {
@@ -29,19 +30,25 @@ describe('express-correlation-id', () => {
   beforeEach((done) => {
     app = express()
     app.use(setCorrelationId(header))
-    app.get('/', (req, res) => { res.send('Hello World') })
+    app.get('/', (req, res) => {
+      expect(req).to.be.an('object')
+      expect(req.id).to.exist
+      expect(req.id).to.match(uuidV4Regex)
+      uuid = req.id
+      res.send('Hello World')
+    })
     done()
   })
 
   it('with X-Request-ID', (done) => {
     request(app)
       .get('/')
-      .expect('x-request-id', uuidV4Regex)
       .end((err, res) => {
         expect(err).to.be.a('null')
         expect(res).to.be.an('object')
         expect(res.headers).to.be.an('object')
         expect(res.headers['x-request-id']).to.match(uuidV4Regex)
+        expect(res.headers['x-request-id']).to.be.equal(uuid)
         expect(res.headers['x-correlation-id']).to.not.exist
         // reset `header` config to use X-Correlation-ID
         header = true
@@ -57,26 +64,48 @@ describe('express-correlation-id', () => {
         expect(res).to.be.an('object')
         expect(res.headers).to.be.an('object')
         expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
+        expect(res.headers['x-correlation-id']).to.be.equal(uuid)
         expect(res.headers['x-request-id']).to.not.exist
-        uuidHold = res.headers['x-correlation-id']
+        oldUuid = res.headers['x-correlation-id']
         done()
       })
   })
 
-  it('with X-Correlation-ID header already exists should override ' +
-    'with a new value',
-    (done) => {
-      request(app)
-        .get('/')
-        .end((err, res) => {
-          expect(err).to.be.a('null')
-          expect(res).to.be.an('object')
-          expect(res.headers).to.be.an('object')
-          expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
-          expect(res.headers['x-request-id']).to.not.exist
-          expect(res.headers['x-correlation-id']).to.not.equal(uuidHold)
-          done()
-        })
-    }
-  )
+  it('should always create a new value for the header', (done) => {
+    request(app)
+      .get('/')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res).to.be.an('object')
+        expect(res.headers).to.be.an('object')
+        expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
+        expect(res.headers['x-correlation-id']).to.be.equal(uuid)
+        expect(res.headers['x-request-id']).to.not.exist
+        expect(res.headers['x-correlation-id']).to.not.equal(oldUuid)
+        done()
+      })
+  })
+
+  it('req.id should exist', (done) => {
+    app.get('/id', (req, res) => {
+      expect(req).to.be.an('object')
+      expect(req.id).to.exist
+      expect(req.id).to.match(uuidV4Regex)
+      uuid = req.id
+      res.send('req.id should exists')
+    })
+
+    request(app)
+      .get('/id')
+      .end((err, res) => {
+        expect(err).to.be.a('null')
+        expect(res).to.be.an('object')
+        expect(res.headers).to.be.an('object')
+        expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
+        expect(res.headers['x-correlation-id']).to.be.equal(uuid)
+        expect(res.headers['x-request-id']).to.not.exist
+        expect(res.headers['x-correlation-id']).to.not.equal(oldUuid)
+        done()
+      })
+  })
 })

@@ -15,7 +15,7 @@ Correlates HTTP requests between a client and server
 **setCorrelationId([boolean, default to false])**
 * by default will use the `X-Request-ID` header but to use the `X-Correlation-ID` header instead just pass the boolean `true` value to `setCorrelationId` function
 
-
+***req.id* now is expose to be used internally by the api/service is using the `express-mw-correlation-id` middleware
 
 ### example
 
@@ -27,7 +27,10 @@ const app = express()
 
 app.use(setCorrelationId())
 
-app.get('/', (req, res) => { res.send('Hey!') })
+// `req.id` hold the correlation/request id
+app.get('/', (req, res) => { res.send(req.id) })
+
+app.listen(3000)
 ```
 
 client
@@ -52,7 +55,7 @@ curl -v http://localhost:3000
 < Connection: keep-alive
 <
 * Connection #0 to host localhost left intact
-Hey!%
+825efe65-a27d-4dca-936b-e74249095fb7
 ```
 
 **X-Request-ID** should come with the headers

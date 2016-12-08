@@ -15,7 +15,8 @@ function setCorrelationId (header = false) {
   return setCorrelationIdMw
 
   function setCorrelationIdMw (req, res, next) {
-    res.setHeader(header && 'X-Correlation-ID' || 'X-Request-ID', uuid())
+    req.id = uuid()
+    res.setHeader(header && 'X-Correlation-ID' || 'X-Request-ID', req.id)
     next()
   }
 }
