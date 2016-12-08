@@ -21,6 +21,7 @@ const uuidV4Regex = new RegExp('^[0-9a-f]{8}-[0-9a-f]{4}-[1-5]' +
   '[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$', 'i')
 
 let header = false
+let uuidHold
 let app
 
 describe('express-correlation-id', () => {
@@ -57,7 +58,25 @@ describe('express-correlation-id', () => {
         expect(res.headers).to.be.an('object')
         expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
         expect(res.headers['x-request-id']).to.not.exist
+        uuidHold = res.headers['x-correlation-id']
         done()
       })
   })
+
+  it('with X-Correlation-ID header already exists should override ' +
+    'with a new value',
+    (done) => {
+      request(app)
+        .get('/')
+        .end((err, res) => {
+          expect(err).to.be.a('null')
+          expect(res).to.be.an('object')
+          expect(res.headers).to.be.an('object')
+          expect(res.headers['x-correlation-id']).to.match(uuidV4Regex)
+          expect(res.headers['x-request-id']).to.not.exist
+          expect(res.headers['x-correlation-id']).to.not.equal(uuidHold)
+          done()
+        })
+    }
+  )
 })
