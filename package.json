@@ -1,6 +1,6 @@
 {
   "name": "express-mw-correlation-id",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "express middleware that correlates HTTP requests between a client and server",
   "main": "index.js",
   "files": [
