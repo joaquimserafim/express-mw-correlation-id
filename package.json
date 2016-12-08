@@ -1,0 +1,47 @@
+{
+  "name": "express-correlation-id",
+  "version": "0.0.0",
+  "description": "express middleware that correlates HTTP requests between a client and server",
+  "main": "index.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
+  "scripts": {
+    "coverage": "open coverage/lcov-report/index.html",
+    "coverage:check": "istanbul check-coverage --statements 100 --functions 100 --lines 100 --branches 100",
+    "test": "standard --fix && istanbul cover _mocha test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaquimserafim/express-correlation-id.git"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "request-id",
+    "correlation-id",
+    "request",
+    "transaction",
+    "id"
+  ],
+  "author": "@JoaquimSerafim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaquimserafim/express-correlation-id/issues"
+  },
+  "homepage": "https://github.com/joaquimserafim/express-correlation-id#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.14.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "pre-commit": "^1.1.3",
+    "standard": "^8.6.0",
+    "supertest": "^2.0.1"
+  },
+  "dependencies": {
+    "uuid": "^3.0.1"
+  }
+}
