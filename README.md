@@ -15,7 +15,7 @@ Correlates HTTP requests between a client and server
 **setCorrelationId([boolean, default to false])**
 * by default will use the `X-Request-ID` header but to use the `X-Correlation-ID` header instead just pass the boolean `true` value to `setCorrelationId` function
 
-***req.id** now is expose to be used internally by the api/service is using the `express-mw-correlation-id` middleware
+**req.id** now is expose to be used internally by the api/service is using the `express-mw-correlation-id` middleware
 
 ### example
 
