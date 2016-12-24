@@ -1,6 +1,6 @@
 {
   "name": "express-mw-correlation-id",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "express middleware that correlates HTTP requests between a client and server",
   "main": "index.js",
   "files": [
@@ -42,7 +42,7 @@
     "supertest": "^2.0.1"
   },
   "dependencies": {
-    "uuid": "^3.0.1"
+    "uuid.v4": "^1.0.0"
   },
   "engines": {
     "node": ">=6.1"
