@@ -71,7 +71,7 @@ describe('express-correlation-id', () => {
       })
   })
 
-  it('should always create a new value for the header', (done) => {
+  it('should always create a new value', (done) => {
     request(app)
       .get('/')
       .end((err, res) => {
