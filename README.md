@@ -1,4 +1,4 @@
-# express-correlation-id
+# express-mw-correlation-id
 
 Correlates HTTP requests between a client and server
 
