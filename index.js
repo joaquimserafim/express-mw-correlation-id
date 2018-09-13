@@ -10,13 +10,19 @@ const uuid = require('uuid.v4')
 
 module.exports = setCorrelationId
 
-function setCorrelationId (header = false) {
+function setCorrelationId (name, formatter = (id) => id) {
+  if (typeof name === 'function') {
+    formatter = name
+    name = null
+  }
 
   return setCorrelationIdMw
 
   function setCorrelationIdMw (req, res, next) {
-    req.id = uuid()
-    res.setHeader(header && 'X-Correlation-ID' || 'X-Request-ID', req.id)
+    const id = req.get(name || 'X-Request-ID')
+
+    req.id = id || formatter(uuid())
+    res.setHeader(name || 'X-Request-ID', req.id)
     next()
   }
 }
