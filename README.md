@@ -12,12 +12,14 @@ Correlates HTTP requests between a client and server
 ### api
 `const setCorrelationId = require('express-mw-correlation-id')`
 
-**setCorrelationId([boolean, default to false])**
-* by default will use the `X-Request-ID` header but to use the `X-Correlation-ID` header instead just pass the boolean `true` value to `setCorrelationId` function
+**setCorrelationId([string, defaults to X-Request-ID], [formatter=identity])
+* by default will use the `X-Request-ID` header but to use a custom header instead just pass the name in the first parameter
+* formatter is a function that will add custom formats to the generated ID, being, by default, the generated ID.
+* the middleware will reuse the request id if already present in the request headers
 
 **req.id** now is expose to be used internally by the api/service is using the `express-mw-correlation-id` middleware
 
-### example
+### examples
 
 ```js
 const express = require('express')
@@ -31,6 +33,21 @@ app.use(setCorrelationId())
 app.get('/', (req, res) => { res.send(req.id) })
 
 app.listen(3000)
+```
+
+#### Custom ID
+```js
+app.use(setCorrelationId('X-Custom-ID'))
+```
+
+#### Custom ID and custom format
+```js
+app.use(setCorrelationId('X-Custom-ID', (id) => id))
+```
+
+#### Custom format
+```js
+app.use(setCorrelationId((id) => id))
 ```
 
 client
